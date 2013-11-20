@@ -30,6 +30,42 @@ unsigned int taiko_read(struct snd_soc_codec *codec, unsigned int reg);
 int taiko_write(struct snd_soc_codec *codec, unsigned int reg,
 		unsigned int value);
 
+int reg_access(unsigned int reg)
+{
+	int ret = 1;
+
+	switch (reg) {
+		case TAIKO_A_RX_HPH_L_GAIN:
+		case TAIKO_A_RX_HPH_R_GAIN:
+		case TAIKO_A_RX_HPH_L_STATUS:
+		case TAIKO_A_RX_HPH_R_STATUS:
+		case TAIKO_A_CDC_RX1_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_RX2_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_RX3_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_RX4_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_RX5_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_RX6_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_RX7_VOL_CTL_B2_CTL:
+		case TAIKO_A_CDC_TX1_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX2_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX3_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX4_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX5_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX6_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX7_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX8_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX9_VOL_CTL_GAIN:
+		case TAIKO_A_CDC_TX10_VOL_CTL_GAIN:
+			if (snd_ctrl_locked)
+				ret = 0;
+			break;
+		default:
+			break;
+	}
+	return ret;
+}
+EXPORT_SYMBOL(reg_access);
+
 static bool calc_checksum(unsigned int a, unsigned int b, unsigned int c)
 {
 	unsigned char chksum = 0;
